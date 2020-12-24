@@ -498,26 +498,28 @@ func NewTab() {
 func CloseTab() {
 	// Basically the NewTab() func inverted
 
-	// TODO: Support closing middle tabs, by renumbering all the maps
-	// So that tabs to the right of the closed tabs point to the right places
-	// For now you can only close the right-most tab
-	if curTab != NumTabs()-1 {
-		return
-	}
-
 	if NumTabs() <= 1 {
 		// There's only one tab open, close the app instead
 		Stop()
 		return
 	}
 
-	tabs = tabs[:len(tabs)-1]
-	tabPages.RemovePage(strconv.Itoa(curTab))
+	// Remove the page of the closed tab and the pages of all subsequent tabs
+	for i := curTab; i < NumTabs(); i++ {
+		tabPages.RemovePage(strconv.Itoa(i))
+	}
+	// Remove the closed tab
+	tabs = append(tabs[:curTab], tabs[curTab+1:]...)
 
-	if curTab <= 0 {
-		curTab = NumTabs() - 1
-	} else {
-		curTab--
+	// Re-add the pages of the subsequent tabs
+	for i := curTab; i < NumTabs(); i++ {
+		tabPages.AddPage(strconv.Itoa(i), tabs[i].view, true, false)
+	}
+
+	// Switch to the tab on the left
+	curTab--
+	if curTab < 0 {
+		curTab = 0
 	}
 
 	tabPages.SwitchToPage(strconv.Itoa(curTab)) // Go to previous page

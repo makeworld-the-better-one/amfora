@@ -36,7 +36,7 @@ F2|Next tab
 Ctrl-H|Go home
 Ctrl-T|New tab, or if a link is selected,
 |this will open the link in a new tab.
-Ctrl-W|Close tab. For now, only the right-most tab can be closed.
+Ctrl-W|Close tab.
 Ctrl-R, R|Reload a page, discarding the cached version.
 |This can also be used if you resize your terminal.
 Ctrl-B|View bookmarks
