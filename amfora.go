@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/makeworld-the-better-one/amfora/bookmarks"
 	"github.com/makeworld-the-better-one/amfora/client"
@@ -67,7 +68,20 @@ func main() {
 	display.Init(version, commit, builtBy)
 	display.NewTab()
 	if len(os.Args[1:]) > 0 {
-		display.URL(os.Args[1])
+		url := os.Args[1]
+		if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "gemini://") && !strings.HasPrefix(url, "file://") {
+			fileName := url
+			if !strings.HasPrefix(fileName, "/") {
+				cwd, err := os.Getwd()
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "cannot get working directory path, error: %v\n", err)
+					os.Exit(1)
+				}
+				fileName = cwd + "/" + fileName
+			}
+			url = "file://" + fileName
+		}
+		display.URL(url)
 	}
 
 	// Start
