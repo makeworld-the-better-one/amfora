@@ -18,6 +18,7 @@ type tabMode int
 const (
 	tabModeDone tabMode = iota
 	tabModeLoading
+	tabModeSearch
 )
 
 type tabHistory struct {
