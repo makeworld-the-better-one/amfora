@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os/exec"
 	"path"
+	"regexp"
 	"strings"
 
 	"github.com/makeworld-the-better-one/amfora/cache"
@@ -78,9 +79,23 @@ func handleOther(u string) {
 	default:
 		// The config has a custom command to execute for URLs
 		fields := strings.Fields(handler)
-		err := exec.Command(fields[0], append(fields[1:], u)...).Start()
-		if err != nil {
-			Error("URL Error", "Error executing custom command: "+err.Error())
+		re := regexp.MustCompile("{{url}}")
+		strfields := strings.Join(fields, " ")
+		if re.MatchString(strfields) {
+			for i, field := range fields[1:] {
+				fields[i+1] = strings.ReplaceAll(field, "{{url}}", u)
+			}
+			err := exec.Command(fields[0], fields[1:]...).Start()
+			if err != nil {
+				Error("URL Error", "Error executing custom command: "+err.Error())
+			}
+		} else {
+			// compatibility with config that doesn't use {{url}}
+			fields := strings.Fields(handler)
+			err := exec.Command(fields[0], append(fields[1:], u)...).Start()
+			if err != nil {
+				Error("URL Error", "Error executing custom command: "+err.Error())
+			}
 		}
 	}
 	App.Draw()

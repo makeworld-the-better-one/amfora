@@ -166,8 +166,9 @@ scrollbar = "auto"
 
 [url-handlers]
 # Allows setting the commands to run for various URL schemes.
+# To pass the URL to the program specify {{url}}.
 # E.g. to open FTP URLs with FileZilla set the following key:
-#   ftp = 'filezilla'
+#   ftp = 'filezilla {{url}}'
 # You can set any scheme to "off" or "" to disable handling it, or
 # just leave the key unset.
 #
