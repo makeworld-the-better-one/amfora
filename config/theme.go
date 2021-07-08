@@ -84,5 +84,50 @@ func GetColor(key string) tcell.Color {
 func GetColorString(key string) string {
 	themeMu.RLock()
 	defer themeMu.RUnlock()
-	return fmt.Sprintf("#%06x", theme[key].TrueColor().Hex())
+	color := theme[key].TrueColor()
+	if color == tcell.ColorDefault {
+		return "-"
+	}
+	return fmt.Sprintf("#%06x", color.Hex())
+}
+
+// GetContrastingColor returns ColorBlack if color is brighter than gray
+// otherwise returns ColorWhite if color is dimmer than gray
+// if color is ColorDefault (undefined luminance) this returns ColorDefault
+func GetContrastingColor(color tcell.Color) tcell.Color {
+	if color == tcell.ColorDefault {
+		// color should never be tcell.ColorDefault
+		// only config keys which end in bg are allowed to be set to default
+		// and the only way the argument of this function is set to ColorDefault
+		// is if both the text and bg of an element in the UI are set to default
+		return tcell.ColorDefault
+	}
+	r, g, b := color.RGB()
+	luminance := (77*r + 150*g + 29*b + 1<<7) >> 8
+	const gray = 119 // The middle gray
+	if luminance > gray {
+		return tcell.ColorBlack
+	}
+	return tcell.ColorWhite
+}
+
+// GetTextColor is the Same as GetColor, unless the key is "default".
+// This happens on focus of a UI element which has a bg of default, in which case
+// It return tcell.ColorBlack or tcell.ColorWhite, depending on which is more readable
+func GetTextColor(key, bg string) tcell.Color {
+	themeMu.RLock()
+	defer themeMu.RUnlock()
+	color := theme[key].TrueColor()
+	if color != tcell.ColorDefault {
+		return color
+	}
+	return GetContrastingColor(theme[bg].TrueColor())
+}
+
+// GetTextColorString is the Same as GetColorString, unless the key is "default".
+// This happens on focus of a UI element which has a bg of default, in which case
+// It return tcell.ColorBlack or tcell.ColorWhite, depending on which is more readable
+func GetTextColorString(key, bg string) string {
+	color := GetTextColor(key, bg)
+	return fmt.Sprintf("#%06x", color.Hex())
 }

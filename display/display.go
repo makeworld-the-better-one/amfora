@@ -106,7 +106,7 @@ func Init(version, commit, builtBy string) {
 		browser.SetTabBackgroundColor(config.GetColor("bg"))
 		browser.SetTabBackgroundColorFocused(config.GetColor("tab_num"))
 		browser.SetTabTextColor(config.GetColor("tab_num"))
-		browser.SetTabTextColorFocused(config.GetColor("bg"))
+		browser.SetTabTextColorFocused(config.GetTextColor("bg", "tab_num"))
 		browser.SetTabSwitcherDivider(
 			"",
 			fmt.Sprintf("[%s:%s]|[-]", config.GetColorString("tab_divider"), config.GetColorString("bg")),

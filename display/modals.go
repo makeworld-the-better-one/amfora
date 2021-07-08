@@ -49,7 +49,7 @@ func modalInit() {
 		m.SetTextColor(config.GetColor("info_modal_text"))
 		form := m.GetForm()
 		form.SetButtonBackgroundColorFocused(config.GetColor("btn_text"))
-		form.SetButtonTextColorFocused(config.GetColor("btn_bg"))
+		form.SetButtonTextColorFocused(config.GetTextColor("btn_bg", "btn_text"))
 		frame := m.GetFrame()
 		frame.SetBorderColor(config.GetColor("info_modal_text"))
 		frame.SetTitleColor(config.GetColor("info_modal_text"))
@@ -61,7 +61,7 @@ func modalInit() {
 		m.SetTextColor(config.GetColor("error_modal_text"))
 		form = m.GetForm()
 		form.SetButtonBackgroundColorFocused(config.GetColor("btn_text"))
-		form.SetButtonTextColorFocused(config.GetColor("btn_bg"))
+		form.SetButtonTextColorFocused(config.GetTextColor("btn_bg", "btn_text"))
 		frame = errorModal.GetFrame()
 		frame.SetBorderColor(config.GetColor("error_modal_text"))
 		frame.SetTitleColor(config.GetColor("error_modal_text"))
@@ -78,14 +78,14 @@ func modalInit() {
 		form.SetFieldBackgroundColor(config.GetColor("input_modal_field_bg"))
 		form.SetFieldTextColor(config.GetColor("input_modal_field_text"))
 		form.SetButtonBackgroundColorFocused(config.GetColor("btn_text"))
-		form.SetButtonTextColorFocused(config.GetColor("btn_bg"))
+		form.SetButtonTextColorFocused(config.GetTextColor("btn_bg", "btn_text"))
 
 		m = yesNoModal
 		m.SetButtonBackgroundColor(config.GetColor("btn_bg"))
 		m.SetButtonTextColor(config.GetColor("btn_text"))
 		form = m.GetForm()
 		form.SetButtonBackgroundColorFocused(config.GetColor("btn_text"))
-		form.SetButtonTextColorFocused(config.GetColor("btn_bg"))
+		form.SetButtonTextColorFocused(config.GetTextColor("btn_bg", "btn_text"))
 	} else {
 		m := infoModal
 		m.SetBackgroundColor(tcell.ColorBlack)

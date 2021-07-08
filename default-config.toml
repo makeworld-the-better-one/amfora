@@ -302,6 +302,8 @@ entries_per_page = 20
 # This section is for changing the COLORS used in Amfora.
 # These colors only apply if 'color' is enabled above.
 # Colors can be set using a W3C color name, or a hex value such as "#ffffff".
+# Setting a background to "default" keeps the terminal default
+# If your terminal has transparency, set any background to "default" to keep it transparent
 
 # Note that not all colors will work on terminals that do not have truecolor support.
 # If you want to stick to the standard 16 or 256 colors, you can get
@@ -320,6 +322,7 @@ entries_per_page = 20
 # EXAMPLES:
 # hdg_1 = "green"
 # hdg_2 = "#5f0000"
+# bg = "default"
 
 # Available keys to set:
 
